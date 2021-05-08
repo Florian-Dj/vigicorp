@@ -8,8 +8,10 @@ create_user () {
 	else
 		adduser --home /home/test-"$1".vigicorp.net --shell /bin/bash --disabled-password $1
 		echo "User $1 has been added to system!" || echo "Failed to add a user!"
+		mkdir /home/test-"$1".vigicorp.net/www
+		cp index.php /home/test-"$1".vigicorp.net/www/
+		chown -R $1: /home/test-"$1".vigicorp.net
 	fi
-	mkdir /home/test-"$1".vigicorp.net/www
 }
 
 # Am i Root user?

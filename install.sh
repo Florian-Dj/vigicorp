@@ -14,7 +14,7 @@ create_user () {
 	fi
 }
 
-#Install apache2
+# Install apache2
 install_apache () {
 	apt -y install lsb-release apt-transport-https ca-certificates wget apache2
 	wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
@@ -24,10 +24,12 @@ install_apache () {
 	systemctl enable apache2
 }
 
-#Install php librairies for apache2
+# Install php librairies for apache2
 install_php () {
-	apt install -y $1 $1-cli $1-common
+	apt install -y $1 $1-cli $1-common $1-fpm
 	apt install -y libapache2-mod-$1
+	cp your_domain.conf /etc/apache2/sites-available/$1.conf
+	sed -i 's/php/$1/g' /etc/apache2/sites-available/$1.conf
 }
 
 # Am i Root user?

@@ -40,6 +40,7 @@ if [ $(id -u) -eq 0 ]; then
 	install_apache
 	install_php 'php7.4'
 	install_php 'php8.0'
+	cat apache.conf >> /etc/apache2/apache2.conf
 else
 	echo "Only root may add a user to the system."
 	exit 2

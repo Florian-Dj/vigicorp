@@ -16,7 +16,7 @@ create_user () {
 
 # Install apache2
 install_apache () {
-	apt -y install lsb-release apt-transport-https ca-certificates wget apache2
+	apt -y install lsb-release apt-transport-https ca-certificates apache2 libapache2-mod-fcgid
 	wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
 	echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/php.list
 	apt update -y
@@ -28,8 +28,10 @@ install_apache () {
 install_php () {
 	apt install -y $1 $1-cli $1-common $1-fpm
 	apt install -y libapache2-mod-$1
-	cp your_domain.conf /etc/apache2/sites-available/$1.conf
-	sed -i 's/php/$1/g' /etc/apache2/sites-available/$1.conf
+	cp your_domain.conf /etc/apache2/sites-available/$2.conf
+	sed -i 's/php_version_full/'$1'/g' /etc/apache2/sites-available/$2.conf
+	sed -i 's/php_version/'$2'/g' /etc/apache2/sites-available/$2.conf
+	a2ensite $2
 }
 
 # Am i Root user?
@@ -38,8 +40,8 @@ if [ $(id -u) -eq 0 ]; then
 	create_user 'php7'
 	create_user 'php8'
 	install_apache
-	install_php 'php7.4'
-	install_php 'php8.0'
+	install_php 'php7.4' 'php7'
+	install_php 'php8.0' 'php8'
 	cat apache.conf >> /etc/apache2/apache2.conf
 	systemctl reload apache2
 else

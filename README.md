@@ -28,4 +28,4 @@ chmod 754 install.sh
 sh install.sh
 ```
 
-Ajouter les informations si besoins pour les user php7 et php8.
+Il vous suffit juste de faire votre choix d'installation suivant vos besoins.

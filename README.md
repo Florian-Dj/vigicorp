@@ -1,3 +1,8 @@
+## Prérquis
+
+Debain 10
+
+
 ## But
 
 - Installation d’un serveur web Apache et multi versions PHP (7.4 et 8.0, les deux versions doivent cohabiter) permettant d’afficher PHP Info de chaque version.

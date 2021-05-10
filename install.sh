@@ -55,6 +55,7 @@ create_website (){
 	sed -i 's/path_directory/'$directory'/g' /etc/apache2/sites-available/$domain.conf
 	a2ensite $domain
 	echo "Configuration apache file for $domain"
+	main_menu
 }
 
 # Install Auto and Manual
@@ -120,14 +121,16 @@ main_menu () {
 	1 - Create User
 	2 - Install Apache2
 	3 - Install PHP version
-	4 - Install auto
+	4 - Create new website
+	5 - Install auto
 	0 - Exit"""
 	read -p "Enter choice : " choice_main_menu
 	case $choice_main_menu in
 		1) create_user ;;
 		2) install_apache ;;
 		3) menu_php_version ;;
-		4) install_auto ;;
+		4) create_website ;;
+		5) install_auto ;;
 		0) exit 1 ;;
 		*) echo "Bad error" && main_menu ;;
 	esac

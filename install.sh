@@ -78,7 +78,7 @@ main_menu () {
 	read -p "Choose : " choose_main_menu
 	case $choose_main_menu in
 		1) echo create_user ;;
-		2) echo "Install apache2" ;;
+		2) echo install_apache ;;
 		3) echo "Install Php version" ;;
 		4) install_auto ;;
 		0) exit 1;;

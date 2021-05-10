@@ -52,7 +52,7 @@ create_website (){
 	cp your_domain.conf /etc/apache2/sites-available/$domain.conf
 	sed -i 's/php_version/'$php_version'/g' /etc/apache2/sites-available/$domain.conf
 	sed -i 's/domain/'$domain'/g' /etc/apache2/sites-available/$domain.conf
-	sed -i 's/path_directory/'$directory'/g' /etc/apache2/sites-available/$domain.conf
+	sed -i 's|path_directory|'$directory'|g' /etc/apache2/sites-available/$domain.conf
 	a2ensite $domain
 	echo "Configuration apache file for $domain"
 	main_menu
@@ -82,7 +82,7 @@ install_php_auto () {
 	cp your_domain.conf /etc/apache2/sites-available/$2.conf
 	sed -i 's/php_version/'$1'/g' /etc/apache2/sites-available/$2.conf
 	sed -i 's/domain/'$2'/g' /etc/apache2/sites-available/$2.conf
-	sed -i 's/path_directory/'$3'/g' /etc/apache2/sites-available/$2.conf
+	sed -i 's|path_directory|'$3'|g' /etc/apache2/sites-available/$2.conf
 	a2ensite $2
 	echo "Install $1 and configuration apache file"
 }

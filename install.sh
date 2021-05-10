@@ -13,6 +13,7 @@ create_user () {
 		cp index.php /home/$directory/www/
 		chown -R $1: /home/$directory
 		echo "User $1 has been added to system!" || echo "Failed to add a user!"
+	fi
 	main_menu
 }
 
@@ -80,8 +81,8 @@ main_menu () {
 	0 - Exit"""
 	read -p "Choose : " choose_main_menu
 	case $choose_main_menu in
-		1) echo create_user ;;
-		2) echo install_apache ;;
+		1) create_user ;;
+		2) install_apache ;;
 		3) echo "Install Php version" ;;
 		4) install_auto ;;
 		0) exit 1;;

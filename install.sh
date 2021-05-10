@@ -11,10 +11,26 @@ create_user () {
 		adduser --home /home/$directory --shell /bin/bash --disabled-password $username
 		mkdir /home/$directory/www
 		cp index.php /home/$directory/www/
-		chown -R $1: /home/$directory
-		echo "User $1 has been added to system!" || echo "Failed to add a user!"
+		chown -R $username: /home/$directory
+		echo "User $username has been added to system!" || echo "Failed to add a user!"
 	fi
 	main_menu
+}
+
+menu_php () {
+	echo """
+	1 - PHP 8.0
+	2 - PHP 7.4
+	3 - PHP 7.3
+	0 - Back"""
+	read -p "Enter choice : " choose_php_menu
+	case $choose_php_menu in
+		1) echo "PHP 8" ;;
+		1) echo "PHP 7.4" ;;
+		1) echo "PHP 7.3" ;;
+		0) main_menu ;;
+		*) echo "Bad error" && menu_php ;;
+	esac
 }
 
 # Install apache2
@@ -33,7 +49,7 @@ install_apache () {
 }
 
 # Install php librairies for apache2
-install_php () {
+install_php_auto () {
 	apt install -yqq $1 $1-cli $1-common $1-fpm
 	apt install -yqq libapache2-mod-$1
 	cp your_domain.conf /etc/apache2/sites-available/$2.conf
@@ -50,8 +66,8 @@ install_auto () {
 	create_user_auto 'php7'
 	create_user_auto 'php8'
 	install_apache 'auto'
-	install_php 'php7.4' 'php7'
-	install_php 'php8.0' 'php8'
+	install_php_auto 'php7.4' 'php7'
+	install_php_auto 'php8.0' 'php8'
 	systemctl reload apache2
 	echo "Auto  Install Completed !"
 }
@@ -74,18 +90,18 @@ create_user_auto () {
 # Main menu for user
 main_menu () {
 	echo """
-	1 - Create user
-	2 - Install apache2
-	3 - Install Php version
+	1 - Create User
+	2 - Install Apache2
+	3 - Install PHP version
 	4 - Install auto
 	0 - Exit"""
-	read -p "Choose : " choose_main_menu
+	read -p "Enter choice : " choose_main_menu
 	case $choose_main_menu in
 		1) create_user ;;
 		2) install_apache ;;
 		3) echo "Install Php version" ;;
 		4) install_auto ;;
-		0) exit 1;;
+		0) exit 1 ;;
 		*) echo "Bad error" && main_menu ;;
 	esac
 }

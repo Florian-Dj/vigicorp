@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Create user 
+# Create user manual
 create_user () {
 	read -p "Enter username : " username
 	read -p "Enter home directory : " directory
@@ -17,6 +17,7 @@ create_user () {
 	main_menu
 }
 
+# Menu choice php version
 menu_php_version () {
 	echo """
 	1 - PHP 8.0
@@ -33,6 +34,7 @@ menu_php_version () {
 	esac
 }
 
+# Install php version
 install_php () {
 	apt install -yqq $1 $1-cli $1-common $1-fpm
 	apt install -yqq libapache2-mod-$1

@@ -17,7 +17,7 @@ create_user () {
 	main_menu
 }
 
-menu_php () {
+menu_php_version () {
 	echo """
 	1 - PHP 8.0
 	2 - PHP 7.4
@@ -25,12 +25,21 @@ menu_php () {
 	0 - Back"""
 	read -p "Enter choice : " choice_php_menu
 	case $choice_php_menu in
-		1) echo "PHP 8" ;;
-		2) echo "PHP 7.4" ;;
-		3) echo "PHP 7.3" ;;
+		1) install_php "php8" ;;
+		2) install_php "php7.4" ;;
+		3) install_php "php7.3" ;;
 		0) main_menu ;;
 		*) echo "Bad error" && menu_php ;;
 	esac
+}
+
+install_php () {
+	apt install -yqq $1 $1-cli $1-common $1-fpm
+	apt install -yqq libapache2-mod-$1
+	systemctl start $1-fpm
+	systemctl enable $1-fpm
+	echo "Install, start and enable $1"
+	menu_php_version
 }
 
 # Install apache2
@@ -99,7 +108,7 @@ main_menu () {
 	case $choice_main_menu in
 		1) create_user ;;
 		2) install_apache ;;
-		3) menu_php ;;
+		3) menu_php_version ;;
 		4) install_auto ;;
 		0) exit 1 ;;
 		*) echo "Bad error" && main_menu ;;

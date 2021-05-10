@@ -7,13 +7,13 @@ create_user () {
 	egrep "^$username" /etc/passwd >/dev/null
 	if [ $? -eq 0 ]; then
 		echo "$username exists!"
-		main_menu
 	else
 		adduser --home /home/$directory --shell /bin/bash --disabled-password $username
 		mkdir /home/$directory/www
 		cp index.php /home/$directory/www/
 		chown -R $1: /home/$directory
 		echo "User $1 has been added to system!" || echo "Failed to add a user!"
+	main_menu
 }
 
 # Install apache2
@@ -26,6 +26,9 @@ install_apache () {
 	systemctl enable apache2
 	cat apache.conf >> /etc/apache2/apache2.conf
 	echo "Install and start apache2"
+	if [ -z $1 ]; then
+		main_menu
+	fi
 }
 
 # Install php librairies for apache2
@@ -45,7 +48,7 @@ install_auto () {
 	apt update -qq && apt upgrade -yqq && apt autoremove -yqq
 	create_user_auto 'php7'
 	create_user_auto 'php8'
-	install_apache
+	install_apache 'auto'
 	install_php 'php7.4' 'php7'
 	install_php 'php8.0' 'php8'
 	systemctl reload apache2

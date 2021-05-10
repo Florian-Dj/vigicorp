@@ -109,8 +109,8 @@ install_auto () {
 	create_user_auto 'php7'
 	create_user_auto 'php8'
 	install_apache 'auto'
-	install_php_auto 'php7.4' 'test-php7.floriandjerbi.fr' '/home/test-php7.vigicorp.net/www'
-	install_php_auto 'php8.0' 'test-php8.floriandjerbi.fr' '/home/test-php8.vigicorp.net/www'
+	install_php_auto 'php7.4' 'test-php7.vigicorp.net' '/home/test-php7.vigicorp.net/www'
+	install_php_auto 'php8.0' 'test-php8.vigicorp.net' '/home/test-php8.vigicorp.net/www'
 	systemctl reload apache2
 	echo "Auto Install Completed !"
 }

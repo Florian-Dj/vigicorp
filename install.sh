@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Create user and folder /www
-create_user () {
+# Create user auto and folder /www
+create_user_auto () {
 	egrep "^$1" /etc/passwd >/dev/null
 	if [ $? -eq 0 ]; then
 		echo "User $1 exists!"
@@ -37,17 +37,32 @@ install_php () {
 	echo "Install $1 and configuration apache file"
 }
 
+# Auto install full projet
+install_auto () {
+	apt update -qq && apt upgrade -yqq && apt autoremove -yqq
+	create_user_auto 'php7'
+	create_user_auto 'php8'
+	install_apache
+	install_php 'php7.4' 'php7'
+	install_php 'php8.0' 'php8'
+	systemctl reload apache2
+	echo "Auto  Install Completed !"
+}
+
+# Main menu for user
 main_menu () {
 	echo """
 	1 - Create user
 	2 - Install apache2
 	3 - Install Php version
+	4 - Install auto
 	0 - Exit"""
 	read -p "Choose : " choose_main_menu
 	case $choose_main_menu in
 		1) echo "Create user" ;;
 		2) echo "Install apache2" ;;
 		3) echo "Install Php version" ;;
+		4) install_auto ;;
 		0) exit 1;;
 		*) echo "Bad error" && main_menu ;;
 	esac
@@ -56,13 +71,6 @@ main_menu () {
 # Am i Root user?
 if [ $(id -u) -eq 0 ]; then
 	main_menu
-	#apt update -qq && apt upgrade -yqq && apt autoremove -yqq
-	#create_user 'php7'
-	#create_user 'php8'
-	#install_apache
-	#install_php 'php7.4' 'php7'
-	#install_php 'php8.0' 'php8'
-	#systemctl reload apache2
 else
 	echo "Only root may add a user to the system."
 	exit 2

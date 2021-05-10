@@ -44,7 +44,21 @@ install_php () {
 	menu_php_version
 }
 
-# Install apache2
+# Create new web site
+create_website (){
+	read -p "Enter domain : " domain
+	read -p "Enter directory : " directory
+	read -p "Enter php version : " php_version
+	cp your_domain.conf /etc/apache2/sites-available/$domain.conf
+	sed -i 's/php_version/'$php_version'/g' /etc/apache2/sites-available/$domain.conf
+	sed -i 's/domain/'$domain'/g' /etc/apache2/sites-available/$domain.conf
+	sed -i 's/directory/'$directory'/g' /etc/apache2/sites-available/$domain.conf
+	a2ensite $domain
+	echo "Configuration apache file for $domain"
+}
+
+# Install Auto and Manual
+# Install Apache2
 install_apache () {
 	apt -yqq install lsb-release apt-transport-https ca-certificates apache2 libapache2-mod-fcgid wget
 	wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
@@ -59,14 +73,16 @@ install_apache () {
 	fi
 }
 
-# Install php librairies for apache2
+# Install Auto
+# Install PHP librairies for Apache2
 install_php_auto () {
 	apt install -yqq $1 $1-cli $1-common $1-fpm
 	apt install -yqq libapache2-mod-$1
-	cp your_domain.conf /etc/apache2/sites-available/$2.conf
-	sed -i 's/php_version_full/'$1'/g' /etc/apache2/sites-available/$2.conf
-	sed -i 's/php_version/'$2'/g' /etc/apache2/sites-available/$2.conf
-	a2ensite $2
+	cp your_domain.conf /etc/apache2/sites-available/$3.conf
+	sed -i 's/php_version/'$2'/g' /etc/apache2/sites-available/$domain.conf
+	sed -i 's/domain/'$3'/g' /etc/apache2/sites-available/$domain.conf
+	sed -i 's/directory/'$4'/g' /etc/apache2/sites-available/$domain.conf
+	a2ensite $3
 	echo "Install $1 and configuration apache file"
 }
 
@@ -77,8 +93,8 @@ install_auto () {
 	create_user_auto 'php7'
 	create_user_auto 'php8'
 	install_apache 'auto'
-	install_php_auto 'php7.4' 'php7'
-	install_php_auto 'php8.0' 'php8'
+	install_php_auto 'php7.4' 'php7' 'test-php7.floriandjerbi.fr' '/home/test-php7.vigicorp.net/www'
+	install_php_auto 'php8.0' 'php8' 'test-php8.floriandjerbi.fr' '/home/test-php8.vigicorp.net/www'
 	systemctl reload apache2
 	echo "Auto  Install Completed !"
 }

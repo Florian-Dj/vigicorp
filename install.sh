@@ -79,24 +79,11 @@ install_php_auto () {
 	apt install -yqq $1 $1-cli $1-common $1-fpm
 	apt install -yqq libapache2-mod-$1
 	cp your_domain.conf /etc/apache2/sites-available/$3.conf
-	sed -i 's/php_version/'$2'/g' /etc/apache2/sites-available/$domain.conf
-	sed -i 's/domain/'$3'/g' /etc/apache2/sites-available/$domain.conf
-	sed -i 's/directory/'$4'/g' /etc/apache2/sites-available/$domain.conf
+	sed -i 's/php_version/'$2'/g' /etc/apache2/sites-available/$3.conf
+	sed -i 's/domain/'$3'/g' /etc/apache2/sites-available/$3.conf
+	sed -i 's/directory/'$4'/g' /etc/apache2/sites-available/$3.conf
 	a2ensite $3
 	echo "Install $1 and configuration apache file"
-}
-
-# Install Auto
-# Auto install full projet
-install_auto () {
-	apt update -qq && apt upgrade -yqq && apt autoremove -yqq
-	create_user_auto 'php7'
-	create_user_auto 'php8'
-	install_apache 'auto'
-	install_php_auto 'php7.4' 'php7' 'test-php7.floriandjerbi.fr' '/home/test-php7.vigicorp.net/www'
-	install_php_auto 'php8.0' 'php8' 'test-php8.floriandjerbi.fr' '/home/test-php8.vigicorp.net/www'
-	systemctl reload apache2
-	echo "Auto  Install Completed !"
 }
 
 # Install Auto
@@ -112,6 +99,19 @@ create_user_auto () {
 		chown -R $1: /home/test-"$1".vigicorp.net
 		echo "User $1 has been added to system!" || echo "Failed to add a user!"
 	fi
+}
+
+# Install Auto
+# Auto install full projet
+install_auto () {
+	apt update -qq && apt upgrade -yqq && apt autoremove -yqq
+	create_user_auto 'php7'
+	create_user_auto 'php8'
+	install_apache 'auto'
+	install_php_auto 'php7.4' 'php7' 'test-php7.floriandjerbi.fr' '/home/test-php7.vigicorp.net/www'
+	install_php_auto 'php8.0' 'php8' 'test-php8.floriandjerbi.fr' '/home/test-php8.vigicorp.net/www'
+	systemctl reload apache2
+	echo "Auto Install Completed !"
 }
 
 # Main menu for user

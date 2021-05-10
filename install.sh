@@ -25,7 +25,7 @@ install_apache () {
 	apt update -yqq
 	systemctl start apache2
 	systemctl enable apache2
-	cat apache.conf >> /etc/apache2/apache2.conf
+	cat apache.conf > /etc/apache2/apache2.conf
 	echo "Install and start apache2"
 	if [ -z $1 ]; then
 		main_menu

@@ -1,17 +1,19 @@
 #!/bin/bash
 
-# Create user auto and folder /www
-create_user_auto () {
-	egrep "^$1" /etc/passwd >/dev/null
+# Create user 
+create_user () {
+	read -p "Enter username : " username
+	read -p "Enter home directory : " directory
+	egrep "^$username" /etc/passwd >/dev/null
 	if [ $? -eq 0 ]; then
-		echo "User $1 exists!"
+		echo "$username exists!"
+		main_menu
 	else
-		adduser --home /home/test-"$1".vigicorp.net --shell /bin/bash --disabled-password $1
-		mkdir /home/test-"$1".vigicorp.net/www
-		cp index.php /home/test-"$1".vigicorp.net/www/
-		chown -R $1: /home/test-"$1".vigicorp.net
+		adduser --home /home/$directory --shell /bin/bash --disabled-password $username
+		mkdir /home/$directory/www
+		cp index.php /home/$directory/www/
+		chown -R $1: /home/$directory
 		echo "User $1 has been added to system!" || echo "Failed to add a user!"
-	fi
 }
 
 # Install apache2
@@ -37,6 +39,7 @@ install_php () {
 	echo "Install $1 and configuration apache file"
 }
 
+# Install Auto
 # Auto install full projet
 install_auto () {
 	apt update -qq && apt upgrade -yqq && apt autoremove -yqq
@@ -49,6 +52,21 @@ install_auto () {
 	echo "Auto  Install Completed !"
 }
 
+# Install Auto
+# Create user auto and folder /www
+create_user_auto () {
+	egrep "^$1" /etc/passwd >/dev/null
+	if [ $? -eq 0 ]; then
+		echo "User $1 exists!"
+	else
+		adduser --home /home/test-"$1".vigicorp.net --shell /bin/bash --disabled-password $1
+		mkdir /home/test-"$1".vigicorp.net/www
+		cp index.php /home/test-"$1".vigicorp.net/www/
+		chown -R $1: /home/test-"$1".vigicorp.net
+		echo "User $1 has been added to system!" || echo "Failed to add a user!"
+	fi
+}
+
 # Main menu for user
 main_menu () {
 	echo """
@@ -59,7 +77,7 @@ main_menu () {
 	0 - Exit"""
 	read -p "Choose : " choose_main_menu
 	case $choose_main_menu in
-		1) echo "Create user" ;;
+		1) echo create_user ;;
 		2) echo "Install apache2" ;;
 		3) echo "Install Php version" ;;
 		4) install_auto ;;

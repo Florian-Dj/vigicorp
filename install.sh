@@ -23,11 +23,11 @@ menu_php () {
 	2 - PHP 7.4
 	3 - PHP 7.3
 	0 - Back"""
-	read -p "Enter choice : " choose_php_menu
-	case $choose_php_menu in
+	read -p "Enter choice : " choice_php_menu
+	case $choice_php_menu in
 		1) echo "PHP 8" ;;
-		1) echo "PHP 7.4" ;;
-		1) echo "PHP 7.3" ;;
+		2) echo "PHP 7.4" ;;
+		3) echo "PHP 7.3" ;;
 		0) main_menu ;;
 		*) echo "Bad error" && menu_php ;;
 	esac
@@ -95,11 +95,11 @@ main_menu () {
 	3 - Install PHP version
 	4 - Install auto
 	0 - Exit"""
-	read -p "Enter choice : " choose_main_menu
-	case $choose_main_menu in
+	read -p "Enter choice : " choice_main_menu
+	case $choice_main_menu in
 		1) create_user ;;
 		2) install_apache ;;
-		3) echo "Install Php version" ;;
+		3) menu_php ;;
 		4) install_auto ;;
 		0) exit 1 ;;
 		*) echo "Bad error" && main_menu ;;

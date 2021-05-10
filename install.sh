@@ -37,15 +37,28 @@ install_php () {
 	echo "Install $1 and configuration apache file"
 }
 
+main_menu () {
+	echo """
+	1 - Create user
+	2 - Install apache2
+	3 - Install Php version
+	0 - Exit"""
+	read -p "Choose : " choose_main_menu
+	case $choose_main_menu in
+		''|*[0-4]*) echo bad;;
+		*) echo good;;
+}
+
 # Am i Root user?
 if [ $(id -u) -eq 0 ]; then
-	apt update -qq && apt upgrade -yqq && apt autoremove -yqq
-	create_user 'php7'
-	create_user 'php8'
-	install_apache
-	install_php 'php7.4' 'php7'
-	install_php 'php8.0' 'php8'
-	systemctl reload apache2
+	main_menu()
+	#apt update -qq && apt upgrade -yqq && apt autoremove -yqq
+	#create_user 'php7'
+	#create_user 'php8'
+	#install_apache
+	#install_php 'php7.4' 'php7'
+	#install_php 'php8.0' 'php8'
+	#systemctl reload apache2
 else
 	echo "Only root may add a user to the system."
 	exit 2

@@ -45,13 +45,17 @@ main_menu () {
 	0 - Exit"""
 	read -p "Choose : " choose_main_menu
 	case $choose_main_menu in
-		''|*[0-4]*) echo bad;;
-		*) echo good;;
+		1) echo "Create user" ;;
+		2) echo "Install apache2" ;;
+		3) echo "Install Php version" ;;
+		0) exit 1;;
+		*) echo "Bad error" && main_menu ;;
+	esac
 }
 
 # Am i Root user?
 if [ $(id -u) -eq 0 ]; then
-	main_menu()
+	main_menu
 	#apt update -qq && apt upgrade -yqq && apt autoremove -yqq
 	#create_user 'php7'
 	#create_user 'php8'

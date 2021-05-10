@@ -14,3 +14,18 @@
 - Installer et configurer Apache, PHP7.4 et PHP8.0
 - Configurer Apache pour qu’il affiche la page index.php de l’utilisateur test-php7sur l’adresse http://test-php7.vigicorp.net/ ainsi que la page index.php de l’utilisateur test-php8 sur l’adresse http://test-php8.vigicorp.net/
 - Sécurisez l'accès au serveur
+
+
+## Installation
+
+Vous devez être root pour pouvoir lancer le script.
+
+```
+apt install -y git
+git clone https://github.com/Florian-Dj/vigicorp
+cd vigicorp/
+chmod 754 install.sh
+sh install.sh
+```
+
+Ajouter les informations si besoins pour les user php7 et php8.

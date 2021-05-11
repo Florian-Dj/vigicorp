@@ -1,6 +1,6 @@
-## Prérquis
+## Prérequis
 
- - Debain 10
+ - Debian 10
 
 
 ## But

@@ -8,7 +8,7 @@ create_user () {
 	if [ $? -eq 0 ]; then
 		echo "$username exists!"
 	else
-		adduser --home /home/$directory --shell /bin/bash --disabled-password $username
+		adduser --home /home/$directory --shell /usr/sbin/nologin --disabled-password $username
 		mkdir /home/$directory/www
 		cp index.php /home/$directory/www/
 		chown -R $username: /home/$directory
@@ -94,7 +94,7 @@ create_user_auto () {
 	if [ $? -eq 0 ]; then
 		echo "User $1 exists!"
 	else
-		adduser --home /home/test-"$1".vigicorp.net --shell /bin/bash --disabled-password $1
+		adduser --home /home/test-"$1".vigicorp.net --shell /usr/sbin/nologin --disabled-password $1
 		mkdir /home/test-"$1".vigicorp.net/www
 		cp index.php /home/test-"$1".vigicorp.net/www/
 		chown -R $1: /home/test-"$1".vigicorp.net
